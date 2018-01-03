@@ -3,3 +3,5 @@
 out/
 .gradle/
 gradle/
+build/
+resources/robinhood_config.json
