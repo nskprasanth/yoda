@@ -34,4 +34,8 @@ public enum APIEndpoints {
         this.uri = uri;
     }
 
+    @Override
+    public String toString() {
+        return uri;
+    }
 }
