@@ -4,4 +4,4 @@ out/
 .gradle/
 gradle/
 build/
-resources/robinhood_config.json
+src/main/resources/robinhood_config.json
