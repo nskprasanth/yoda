@@ -8,13 +8,13 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Api {
+public abstract class AbstractApi {
 
     private final String name;
     private String urlBase;
     private RequestType requestType;
 
-    private Type returnType;
+    private Type responseType;
 
     private Map<String, String> headerParams = new HashMap<>();
     private Map<String,String> requestParams = new HashMap<>();
@@ -23,7 +23,7 @@ public abstract class Api {
 
     private final ConfigManager config = ConfigManager.getInstance();
 
-    protected Api(String name) {
+    protected AbstractApi(String name) {
         this.name = name;
     }
 
@@ -39,8 +39,8 @@ public abstract class Api {
         return requestType;
     }
 
-    public Type getReturnType() {
-        return returnType;
+    public Type getResponseType() {
+        return responseType;
     }
 
     public Map<String,String> getHeaderParams() {
@@ -59,8 +59,8 @@ public abstract class Api {
         this.requestType = type;
     }
 
-    protected void setReturnType(Type type) {
-        this.returnType = type;
+    protected void setResponseType(Type type) {
+        this.responseType = type;
     }
 
     public void setHeaderParams(String k, String v) {

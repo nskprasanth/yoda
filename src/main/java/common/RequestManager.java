@@ -8,7 +8,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import robinhood.apis.Api;
+import robinhood.apis.RobinhoodApi;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class RequestManager {
         return manager;
     }
 
-    public <T> T callAPI(Api api) {
+    public <T> T callAPI(RobinhoodApi api) {
 
         T result = null;
 
@@ -48,7 +48,7 @@ public class RequestManager {
             HttpResponse<JsonNode> response = request.asJson();
 
             Gson gson = new Gson();
-            result = gson.fromJson(response.getBody().toString(), api.getReturnType());
+            result = gson.fromJson(response.getBody().toString(), api.getResponseType());
 
         } catch (UnirestException e) {
             // TODO: throw custom exception
@@ -58,7 +58,7 @@ public class RequestManager {
         return result;
     }
 
-    private HttpRequest buildGetRequest(Api api) {
+    private HttpRequest buildGetRequest(RobinhoodApi api) {
         GetRequest request = Unirest.get(api.getUrlBase());
         Map<String, String> headers = api.getHeaderParams();
         for (String k : headers.keySet()) {
@@ -68,7 +68,7 @@ public class RequestManager {
         return request;
     }
 
-    private HttpRequest buildPostRequest(Api api) {
+    private HttpRequest buildPostRequest(RobinhoodApi api) {
         HttpRequestWithBody request = Unirest.post(api.getUrlBase());
         Map<String, String> headers = api.getHeaderParams();
         for (String k : headers.keySet()) {

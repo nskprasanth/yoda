@@ -1,7 +1,7 @@
 package robinhood.apis;
 
 import robinhood.APIEndpoints;
-import robinhood.data.AuthToken;
+import robinhood.apis.response.LoginResponse;
 
 public class LoginUser extends Api {
 
@@ -18,6 +18,6 @@ public class LoginUser extends Api {
         setRequestParams("username", user);
         setRequestParams("password", pwd);
 
-        setReturnType(AuthToken.class);
+        setResponseType(LoginResponse.class);
     }
 }

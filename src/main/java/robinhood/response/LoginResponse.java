@@ -1,6 +1,6 @@
-package robinhood.data;
+package robinhood.apis.response;
 
-public class AuthToken {
+public class LoginResponse {
 
     private String token = null;
 
