@@ -1,4 +1,4 @@
-package robinhood.apis;
+package common;
 
 public enum RequestType {
 

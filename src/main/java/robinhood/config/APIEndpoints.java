@@ -1,4 +1,4 @@
-package robinhood;
+package robinhood.config;
 
 public enum APIEndpoints {
 

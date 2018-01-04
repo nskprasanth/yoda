@@ -1,11 +1,12 @@
 package robinhood.apis;
 
-import robinhood.APIEndpoints;
-import robinhood.apis.response.LoginResponse;
+import common.RequestType;
+import robinhood.config.APIEndpoints;
+import robinhood.response.LoginResponse;
 
-public class LoginUser extends Api {
+public class LoginApi extends RobinhoodApi {
 
-    public LoginUser(String user, String pwd) {
+    public LoginApi(String user, String pwd) {
         super("loginUser");
 
         setUrlBase(APIEndpoints.LOGIN.toString());

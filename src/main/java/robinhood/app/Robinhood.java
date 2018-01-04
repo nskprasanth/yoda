@@ -1,8 +1,10 @@
-package robinhood;
+package robinhood.app;
 
-import robinhood.apis.RobinhoodApi;
+import common.Api;
 import robinhood.apis.LoginApi;
-import robinhood.apis.response.LoginResponse;
+import common.RequestManager;
+import robinhood.config.ConfigManager;
+import robinhood.response.LoginResponse;
 
 public class Robinhood {
 
@@ -16,7 +18,7 @@ public class Robinhood {
 
     // TODO: Add exceptions
     public boolean login(String user, String pwd) {
-        RobinhoodApi loginApi = new LoginApi(user, pwd);
+        Api loginApi = new LoginApi(user, pwd);
         LoginResponse token = requestManager.callAPI(loginApi);
         if (token.getToken() == null) {
             return false;

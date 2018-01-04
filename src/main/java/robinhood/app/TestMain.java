@@ -1,4 +1,4 @@
-package robinhood;
+package robinhood.app;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;

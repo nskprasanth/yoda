@@ -1,4 +1,4 @@
-package robinhood;
+package common;
 
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
@@ -8,9 +8,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import robinhood.apis.RobinhoodApi;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 public class RequestManager {
@@ -24,7 +24,7 @@ public class RequestManager {
         return manager;
     }
 
-    public <T> T callAPI(RobinhoodApi api) {
+    public <T> T callAPI(Api api) {
 
         T result = null;
 
@@ -58,7 +58,7 @@ public class RequestManager {
         return result;
     }
 
-    private HttpRequest buildGetRequest(RobinhoodApi api) {
+    private HttpRequest buildGetRequest(Api api) {
         GetRequest request = Unirest.get(api.getUrlBase());
         Map<String, String> headers = api.getHeaderParams();
         for (String k : headers.keySet()) {
@@ -68,7 +68,7 @@ public class RequestManager {
         return request;
     }
 
-    private HttpRequest buildPostRequest(RobinhoodApi api) {
+    private HttpRequest buildPostRequest(Api api) {
         HttpRequestWithBody request = Unirest.post(api.getUrlBase());
         Map<String, String> headers = api.getHeaderParams();
         for (String k : headers.keySet()) {
@@ -76,11 +76,23 @@ public class RequestManager {
         }
 
         try {
-            request.body(api.getRequestParamsAsString());
+            request.body(getRequestParamsAsString(api.getRequestParams()));
         } catch (UnsupportedEncodingException e) {
             // TODO: throw custom exception
             e.printStackTrace();
         }
         return request;
     }
+
+    private String getRequestParamsAsString(Map<String, String> requestParams) throws UnsupportedEncodingException {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (String k : requestParams.keySet()) {
+            sb.append(first ? "" : "&");
+            sb.append(URLEncoder.encode(k, "UTF-8")).append("=").append(URLEncoder.encode(requestParams.get(k), "UTF-8"));
+            first = false;
+        }
+        return sb.toString();
+    }
+
 }

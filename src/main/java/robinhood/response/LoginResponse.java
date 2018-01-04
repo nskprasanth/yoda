@@ -1,4 +1,4 @@
-package robinhood.apis.response;
+package robinhood.response;
 
 public class LoginResponse {
 
