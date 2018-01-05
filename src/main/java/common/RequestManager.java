@@ -22,6 +22,7 @@ public class RequestManager {
             manager = new RequestManager();
         }
         return manager;
+
     }
 
     public <T> T callAPI(Api api) {
