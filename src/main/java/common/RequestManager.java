@@ -21,6 +21,7 @@ public class RequestManager {
         if (manager == null) {
             manager = new RequestManager();
         }
+
         return manager;
     }
 
