@@ -1,15 +1,14 @@
 package robinhood.app;
 
 import common.Api;
-import robinhood.apis.FundamentalsApi;
-import robinhood.apis.LoginApi;
 import common.RequestManager;
-import robinhood.apis.PortfoliosApi;
+import robinhood.apis.*;
 import robinhood.config.ConfigManager;
-import robinhood.response.Fundamentals;
-import robinhood.response.LoginResponse;
-import robinhood.response.Portfolios;
+import robinhood.response.*;
 import robinhood.response.Portfolios.Portfolio;
+
+import java.net.URL;
+import java.util.List;
 
 public class Robinhood {
 
@@ -34,13 +33,27 @@ public class Robinhood {
 
     public Fundamentals getFundamentals(String ticker) {
         Api fundamentalsApi = new FundamentalsApi(ticker);
-        Fundamentals response = requestManager.callAPI(fundamentalsApi);
-        return response;
+        return requestManager.callAPI(fundamentalsApi);
     }
 
     public Portfolio getPortfolio() {
         Api portfoliosApi = new PortfoliosApi();
-        Portfolios response = requestManager.callAPI(portfoliosApi);
-        return response.getPortfolio();
+        return requestManager.callAPI(portfoliosApi);
+    }
+
+    public List<Positions.Position> getPositions() {
+        Api positionsApi = new PositionsApi();
+        Positions positions = requestManager.callAPI(positionsApi);
+        return positions.getPositions();
+    }
+
+    public Instruments getInstrumentDetails(String id) {
+        Api instrumentsApi = new InstrumentsApi(id);
+        return requestManager.callAPI(instrumentsApi);
+    }
+
+    public Instruments getInstrumentDetails(URL url) {
+        Api instrumentsApi = new InstrumentsApi(url);
+        return requestManager.callAPI(instrumentsApi);
     }
 }
