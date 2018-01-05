@@ -2,6 +2,7 @@ package robinhood.app;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import robinhood.response.Portfolios.Portfolio;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,5 +17,8 @@ public class TestMain {
 
         boolean login = trader.login(user, pwd);
         System.out.println(login ? "SUCCESS" : "FAIL");
+
+        Portfolio portfolio = trader.getPortfolio();
+        System.out.println(portfolio.getEquity() + " " + portfolio.getAdjusted_equity_previous_close());
     }
 }

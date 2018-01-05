@@ -47,6 +47,9 @@ public class RequestManager {
         try {
             HttpResponse<JsonNode> response = request.asJson();
 
+            // TODO: remove after testing
+            System.out.println(response.getBody().toString());
+
             Gson gson = new Gson();
             result = gson.fromJson(response.getBody().toString(), api.getResponseType());
 

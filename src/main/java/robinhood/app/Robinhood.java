@@ -1,10 +1,15 @@
 package robinhood.app;
 
 import common.Api;
+import robinhood.apis.FundamentalsApi;
 import robinhood.apis.LoginApi;
 import common.RequestManager;
+import robinhood.apis.PortfoliosApi;
 import robinhood.config.ConfigManager;
+import robinhood.response.Fundamentals;
 import robinhood.response.LoginResponse;
+import robinhood.response.Portfolios;
+import robinhood.response.Portfolios.Portfolio;
 
 public class Robinhood {
 
@@ -25,5 +30,17 @@ public class Robinhood {
         }
         configManager.setAuthToken(token.getToken());
         return true;
+    }
+
+    public Fundamentals getFundamentals(String ticker) {
+        Api fundamentalsApi = new FundamentalsApi(ticker);
+        Fundamentals response = requestManager.callAPI(fundamentalsApi);
+        return response;
+    }
+
+    public Portfolio getPortfolio() {
+        Api portfoliosApi = new PortfoliosApi();
+        Portfolios response = requestManager.callAPI(portfoliosApi);
+        return response.getPortfolio();
     }
 }

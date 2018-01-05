@@ -10,17 +10,23 @@ import java.util.Map;
 
 public class RobinhoodApi implements Api {
 
-    private final String name;
     private final ConfigManager config = ConfigManager.getInstance();
+
+    private final String name;
+
     private String urlBase;
     private RequestType requestType;
     private Type responseType;
+
     private Map<String, String> headerParams = new HashMap<>();
     private Map<String, String> requestParams = new HashMap<>();
-    private boolean tokenRequired = false;
 
     protected RobinhoodApi(String name) {
         this.name = name;
+    }
+
+    protected void setAuthToken() {
+        setHeaderParams("Authorization", "Token " + config.getAuthToken());
     }
 
     public String getName() {
@@ -67,12 +73,6 @@ public class RobinhoodApi implements Api {
         requestParams.put(k, v);
     }
 
-    public void setTokenRequired() {
-        tokenRequired = true;
-    }
 
-    public boolean requireAuthToken() {
-        return tokenRequired;
-    }
 
 }

@@ -7,7 +7,7 @@ import robinhood.response.LoginResponse;
 public class LoginApi extends RobinhoodApi {
 
     public LoginApi(String user, String pwd) {
-        super("loginUser");
+        super("Login");
 
         setUrlBase(APIEndpoints.LOGIN.toString());
 
