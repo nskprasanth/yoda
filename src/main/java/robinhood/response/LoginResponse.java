@@ -1,6 +1,8 @@
 package robinhood.response;
 
-public class LoginResponse {
+import java.io.Serializable;
+
+public class LoginResponse implements Serializable {
 
     private String token = null;
 

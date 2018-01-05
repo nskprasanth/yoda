@@ -1,8 +1,9 @@
 package robinhood.response;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class Fundamentals {
+public class Fundamentals implements Serializable {
 
     private String description;
     private URL instrument;

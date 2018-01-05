@@ -1,10 +1,11 @@
 package robinhood.response;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Portfolios {
+public class Portfolios implements Serializable {
 
-    List<Portfolio> results;
+    private List<Portfolio> results;
 
     public Portfolio getPortfolio() {
         return (results.isEmpty() ? null : results.get(0));
