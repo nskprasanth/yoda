@@ -72,4 +72,10 @@ public class Robinhood {
         return requestManager.callAPI(dividendsApi);
     }
 
+    public List<Orders.Order> getOrdersHistory() {
+        Api ordersApi = new OrdersApi();
+        Orders orders = requestManager.callAPI(ordersApi);
+        return orders.getOrders();
+    }
+
 }

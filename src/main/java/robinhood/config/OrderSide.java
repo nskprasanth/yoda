@@ -1,7 +1,6 @@
 package robinhood.config;
 
-public enum OrderState {
-    cancelled,
-    filled,
-    confirmed;
+public enum OrderSide {
+    buy,
+    sell;
 }
