@@ -56,4 +56,15 @@ public class Robinhood {
         Api instrumentsApi = new InstrumentsApi(url);
         return requestManager.callAPI(instrumentsApi);
     }
+
+    public Quote getQuote(String symbol) {
+        Api quotesApi = new QuotesApi(symbol);
+        return requestManager.callAPI(quotesApi);
+    }
+
+    public Quote getQuote(URL url) {
+        Api quotesApi = new QuotesApi(url);
+        return requestManager.callAPI(quotesApi);
+    }
+
 }
