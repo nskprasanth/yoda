@@ -67,4 +67,9 @@ public class Robinhood {
         return requestManager.callAPI(quotesApi);
     }
 
+    public Dividends getAllDividends() {
+        Api dividendsApi = new DividendsApi();
+        return requestManager.callAPI(dividendsApi);
+    }
+
 }

@@ -5,6 +5,8 @@ import java.net.URL;
 
 public class Instruments implements Serializable {
 
+    private String id;
+
     private URL quote;
     private URL fundamentals;
     private URL splits;
@@ -15,6 +17,10 @@ public class Instruments implements Serializable {
     private String name;
     private String simple_name;
     private String country;
+
+    public String getId() {
+        return id;
+    }
 
     private boolean tradeable;
 
