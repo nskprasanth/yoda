@@ -24,7 +24,7 @@ public class ReturnsReport {
         // Login
         trader.login(user, pwd);
 
-        Map<String, InstrumentReturns> instrumentReturnsMap = new TreeMap<>();
+        Map<String, InstrumentReturns> instrumentReturnsMap = new HashMap<>();
         Map<String, String> instrumentMap = new HashMap<>();
 
         List<Positions.Position> positions = trader.getPositions();
