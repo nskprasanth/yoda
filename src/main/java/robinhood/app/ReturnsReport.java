@@ -9,9 +9,7 @@ import robinhood.response.Quote;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReturnsReport {
 
@@ -26,7 +24,7 @@ public class ReturnsReport {
         // Login
         trader.login(user, pwd);
 
-        Map<String, InstrumentReturns> instrumentReturnsMap = new HashMap<>();
+        Map<String, InstrumentReturns> instrumentReturnsMap = new TreeMap<>();
         Map<String, String> instrumentMap = new HashMap<>();
 
         List<Positions.Position> positions = trader.getPositions();
@@ -43,14 +41,12 @@ public class ReturnsReport {
 
             Quote q = trader.getQuote(instr.getQuoteURL());
 
-            InstrumentReturns returns = new InstrumentReturns(instr.getSymbol());
-            returns.setAvgBuyPrice(p.getAverage_buy_price());
-            returns.setCurrentPrice(q.getLastPrice());
-            returns.setQuantity(p.getQuantity());
-            instrumentReturnsMap.put(instr.getSymbol(), returns);
-
+            InstrumentReturns instrumentReturns = new InstrumentReturns(instr.getSymbol());
+            instrumentReturns.setAvgBuyPrice(p.getAverage_buy_price());
+            instrumentReturns.setCurrentPrice(q.getLastPrice());
+            instrumentReturns.setQuantity(p.getQuantity());
+            instrumentReturnsMap.put(instr.getSymbol(), instrumentReturns);
         }
-        ;
 
         // Dividends
         Map<String, Float> dividendsBySymbol = new HashMap<>();
@@ -67,9 +63,8 @@ public class ReturnsReport {
             }
         }
 
-        instrumentReturnsMap.forEach((k, v) -> {
-            System.out.println(String.format("%s, %.2f, %.2f, %.2f", k, 100 * v.getCapitalGains(),
-                    100 * v.getDividendYield(), 100 * v.getTotalGains()));
-        });
+        Set<InstrumentReturns> returns =  new TreeSet<>(instrumentReturnsMap.values());
+        returns.forEach((v) -> System.out.println(String.format("%s, %.2f, %.2f, %.2f", v.getSymbol(), 100 * v.getCapitalGains(),
+                100 * v.getDividendYield(), 100 * v.getTotalGains())));
     }
 }

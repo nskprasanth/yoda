@@ -1,6 +1,6 @@
 package robinhood.app;
 
-public class InstrumentReturns {
+public class InstrumentReturns implements Comparable<InstrumentReturns> {
 
     private String symbol;
 
@@ -54,5 +54,10 @@ public class InstrumentReturns {
 
     public void setQuantity(float quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public int compareTo(InstrumentReturns o) {
+        return Float.compare(o.getTotalGains(), this.getTotalGains());
     }
 }
