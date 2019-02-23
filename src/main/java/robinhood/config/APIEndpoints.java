@@ -2,8 +2,8 @@ package robinhood.config;
 
 public enum APIEndpoints {
 
-    LOGIN("https://api.robinhood.com/api-token-auth/"),
-    LOGOUT("https://api.robinhood.com/api-token-logout/"),
+    LOGIN("https://api.robinhood.com/oauth2/token/"),
+    LOGOUT("https://api.robinhood.com/oauth2/revoke_token/"),
     INVESTMENT_PROFILE("https://api.robinhood.com/user/investment_profile/"),
     ACCOUNTS("https://api.robinhood.com/accounts/"),
     ACH_IAV_AUTH("https://api.robinhood.com/ach/iav/auth/"),

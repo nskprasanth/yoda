@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class LoginResponse implements Serializable {
 
-    private String token = null;
+    private String access_token = null;
 
     public String getToken() {
-        return token;
+        return access_token;
     }
 
     @Override

@@ -18,6 +18,8 @@ public class LoginApi extends RobinhoodApi {
 
         setRequestParams("username", user);
         setRequestParams("password", pwd);
+        setRequestParams("grant_type", "password");
+        setRequestParams("client_id", "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS");
 
         setResponseType(LoginResponse.class);
     }

@@ -26,7 +26,7 @@ public class RobinhoodApi implements Api {
     }
 
     protected void setAuthToken() {
-        setHeaderParams("Authorization", "Token " + config.getAuthToken());
+        setHeaderParams("Authorization", "Bearer " + config.getAuthToken());
     }
 
     public String getName() {
