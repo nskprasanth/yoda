@@ -9,22 +9,22 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
     private float dividendsGained;
     private float quantity;
 
-    public InstrumentReturns(String symbol) {
+    InstrumentReturns(String symbol) {
         this.symbol = symbol;
     }
 
-    public String getSymbol() {
+    String getSymbol() {
         return symbol;
     }
 
-    public float getCapitalGains() {
+    float getCapitalGains() {
         if (avgBuyPrice == 0 || currentPrice == 0) {
             return 0;
         }
         return (currentPrice/avgBuyPrice)-1;
     }
 
-    public float getDividendYield() {
+    float getDividendYield() {
         if (avgBuyPrice == 0 || quantity == 0) {
             return 0;
         }
@@ -32,7 +32,7 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
     }
 
 
-    public float getTotalGains() {
+    float getTotalGains() {
         return getCapitalGains() + getDividendYield();
     }
 
@@ -40,19 +40,19 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
         return quantity;
     }
 
-    public void setAvgBuyPrice(float avgBuyPrice) {
+    void setAvgBuyPrice(float avgBuyPrice) {
         this.avgBuyPrice = avgBuyPrice;
     }
 
-    public void setCurrentPrice(float currentPrice) {
+    void setCurrentPrice(float currentPrice) {
         this.currentPrice = currentPrice;
     }
 
-    public void setDividendsGained(float dividendsGained) {
+    void setDividendsGained(float dividendsGained) {
         this.dividendsGained = dividendsGained;
     }
 
-    public void setQuantity(float quantity) {
+    void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
