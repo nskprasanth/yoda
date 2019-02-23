@@ -23,6 +23,8 @@ public class QuotesApi extends RobinhoodApi {
     private void init() {
         setRequestType(RequestType.GET);
 
+        setAuthToken();
+
         setHeaderParams("Accept","application/json");
 
         setResponseType(Quote.class);
