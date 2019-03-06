@@ -2,6 +2,9 @@ package robinhood.response;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Dividends implements Serializable {
@@ -44,12 +47,12 @@ public class Dividends implements Serializable {
             return amount;
         }
 
-        public String getRecord_date() {
-            return record_date;
+        public Date getRecord_date() throws ParseException {
+            return new SimpleDateFormat("yyyy-mm-dd").parse(record_date);
         }
 
-        public String getPayable_date() {
-            return payable_date;
+        public Date getPayable_date() throws ParseException {
+            return new SimpleDateFormat("yyyy-mm-dd").parse(payable_date);
         }
 
         public URL getInstrument() {
@@ -72,7 +75,7 @@ public class Dividends implements Serializable {
          * Example instrument URL with instrument id ed793902-693a-40b3-800e-cc8b3f7ea7b1
          * "https://api.robinhood.com/instruments/ed793902-693a-40b3-800e-cc8b3f7ea7b1/"
          *
-         * @return
+         * @return instrumentId corresponding to this dividend
          */
         public String getInstrumentId() {
             String[] tokens = instrument.toString().split("/");
