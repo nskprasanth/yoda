@@ -18,9 +18,10 @@ public class DividendsReport {
                 "src/main/resources/robinhood_config.json"));
         String user = config.getString("user");
         String pwd = config.getString("password");
+        String deviceToken = config.getString("device-token");
 
         // Login
-        trader.login(user, pwd);
+        trader.login(user, pwd, deviceToken);
 
         Map<String, String> instrumentMap = new HashMap<>();
         // Dividends tracked by ticker symbol and by year

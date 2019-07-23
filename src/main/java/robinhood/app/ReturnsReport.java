@@ -20,9 +20,10 @@ public class ReturnsReport {
                 "src/main/resources/robinhood_config.json"));
         String user = config.getString("user");
         String pwd = config.getString("password");
+        String deviceToken = config.getString("device-token");
 
         // Login
-        trader.login(user, pwd);
+        trader.login(user, pwd, deviceToken);
 
         Map<String, InstrumentReturns> instrumentReturnsMap = new HashMap<>();
         Map<String, String> instrumentMap = new HashMap<>();

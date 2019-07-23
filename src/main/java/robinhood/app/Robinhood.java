@@ -9,6 +9,7 @@ import robinhood.response.Portfolios.Portfolio;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Scanner;
 
 public class Robinhood {
 
@@ -21,8 +22,15 @@ public class Robinhood {
     }
 
     // TODO: Add exceptions
-    public boolean login(String user, String pwd) {
-        Api loginApi = new LoginApi(user, pwd);
+    public boolean login(String user, String pwd, String deviceToken) {
+        LoginApi loginApi = new LoginApi(user, pwd, deviceToken);
+        requestManager.callAPI(loginApi);
+
+        Scanner scanner = new Scanner(System.in);
+        String mfaCode = scanner.next();
+        scanner.close();
+
+        loginApi.setMfaCode(mfaCode);
         LoginResponse token = requestManager.callAPI(loginApi);
         if (token.getToken() == null) {
             return false;
