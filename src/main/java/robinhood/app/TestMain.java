@@ -17,26 +17,10 @@ public class TestMain {
         Config config = ConfigFactory.parseReader(new FileReader("src/main/resources/robinhood_config.json"));
         String user = config.getString("user");
         String pwd = config.getString("password");
+        String deviceToken = config.getString("device-token");
 
         // Login
-        trader.login(user, pwd);
-
-        List<Orders.Order> orders = trader.getOrdersHistory();
-        orders.forEach(order -> {
-            if (order.getState().equals(OrderState.filled.name())) {
-                try {
-                    System.out.println(
-                            String.format("%s, %s, %.2f, %.2f",
-                                    order.getTimestamp(),
-                                    trader.getInstrumentDetails(order.getInstrument()).getSymbol(),
-                                    order.getQuantity(),
-                                    order.getPrice())
-                    );
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        trader.login(user, pwd, deviceToken);
     }
 
 }
