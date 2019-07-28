@@ -8,7 +8,9 @@ import robinhood.response.*;
 import robinhood.response.Portfolios.Portfolio;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Robinhood {
@@ -86,4 +88,15 @@ public class Robinhood {
         return orders.getOrders();
     }
 
+    public Map<Date, Double> getTransfersHistory() {
+        Api transfersApi = new TransfersApi();
+        Transfers transfers = requestManager.callAPI(transfersApi);
+        return transfers.getTransfers();
+    }
+
+    public Map<Date, Double> getPortfolioHistoricals(String account) {
+        Api accountsApi = new PortfolioHistoricalsApi(account);
+        PortfolioHistoricals historicals = requestManager.callAPI(accountsApi);
+        return historicals.getPortflioHistoricals();
+    }
 }
