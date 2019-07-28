@@ -9,8 +9,8 @@ import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class RequestManager {
@@ -37,12 +37,6 @@ public class RequestManager {
             case POST:
                 request = buildPostRequest(api);
                 break;
-            default:
-                break;
-        }
-
-        if (request == null) {
-            return null;
         }
 
         try {
@@ -69,6 +63,11 @@ public class RequestManager {
             request.header(k, headers.get(k));
         }
 
+        Map<String, String> requestParams = api.getRequestParams();
+        for (String k : requestParams.keySet()) {
+            request.queryString(k, requestParams.get(k));
+        }
+
         return request;
     }
 
@@ -79,21 +78,17 @@ public class RequestManager {
             request.header(k, headers.get(k));
         }
 
-        try {
-            request.body(getRequestParamsAsString(api.getRequestParams()));
-        } catch (UnsupportedEncodingException e) {
-            // TODO: throw custom exception
-            e.printStackTrace();
-        }
+        request.body(getRequestParamsAsString(api.getRequestParams()));
         return request;
     }
 
-    private String getRequestParamsAsString(Map<String, String> requestParams) throws UnsupportedEncodingException {
+    private String getRequestParamsAsString(Map<String, String> requestParams) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (String k : requestParams.keySet()) {
             sb.append(first ? "" : "&");
-            sb.append(URLEncoder.encode(k, "UTF-8")).append("=").append(URLEncoder.encode(requestParams.get(k), "UTF-8"));
+            sb.append(URLEncoder.encode(k, StandardCharsets.UTF_8)).append("=").append(URLEncoder.encode(
+                    requestParams.get(k), StandardCharsets.UTF_8));
             first = false;
         }
         return sb.toString();
