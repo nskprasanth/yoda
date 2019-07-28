@@ -19,6 +19,7 @@ public enum APIEndpoints {
     ORDERS("https://api.robinhood.com/orders/"),
     PASSWORD_RESET("https://api.robinhood.com/password_reset/request/"),
     PORTFOLIOS("https://api.robinhood.com/portfolios/"),
+    PORTFOLIO_HISTORICALS("https://api.robinhood.com/portfolios/historicals/"),
     POSITIONS("https://api.robinhood.com/positions/"),
     QUOTES("https://api.robinhood.com/quotes/"),
     HISTORICALS("https://api.robinhood.com/quotes/historicals/"),
