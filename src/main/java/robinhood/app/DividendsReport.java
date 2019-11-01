@@ -12,6 +12,17 @@ import java.util.*;
 
 public class DividendsReport {
 
+    private static List<Map.Entry<String, Float>> getSortedEntryList(Map<String, Float> dividendsBySymbol) {
+        List<Map.Entry<String, Float> > entries = new LinkedList<>(dividendsBySymbol.entrySet());
+        Collections.sort(entries, new Comparator<>() {
+            @Override
+            public int compare(Map.Entry<String, Float> o1, Map.Entry<String, Float> o2) {
+                return o2.getValue().compareTo(o1.getValue()); // descending order
+            }
+        });
+        return entries;
+    }
+
     public static void main(String[] args) throws FileNotFoundException, ParseException {
         Robinhood trader = new Robinhood();
         Config config = ConfigFactory.parseReader(new FileReader(
@@ -63,7 +74,8 @@ public class DividendsReport {
         dividendsByYearSymbol.forEach((year, dividendsBySymbol) -> {
             System.out.println("Dividends for " + year + " are: ");
             Float totalDividends = 0f;
-            for (Map.Entry<String, Float> entry: dividendsBySymbol.entrySet()) {
+           List<Map.Entry<String, Float>> sortedEntries = getSortedEntryList(dividendsBySymbol);
+           for (Map.Entry<String, Float> entry: sortedEntries) {
                 System.out.println(String.format("%s : %.2f", entry.getKey(), entry.getValue()));
                 totalDividends += entry.getValue();
             }
