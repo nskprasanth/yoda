@@ -12,6 +12,9 @@ import java.util.Map;
 
 public class PortfolioReturnsReport {
 
+    // ignore first 3 transfers to remove inconsistencies
+    private static final int EARLY_TRANSFER_IGNORES = 3;
+
     private static Date findPrevDate(Map<Date, Double> history, Date date) {
 
         if (history == null || date == null) {
@@ -61,12 +64,19 @@ public class PortfolioReturnsReport {
         NumberFormat percentFormat = NumberFormat.getPercentInstance();
         percentFormat.setMinimumFractionDigits(1);
 
+        int ignoreCounter = EARLY_TRANSFER_IGNORES;
+
         while (iter.hasNext()) {
             Map.Entry<Date, Double> transferEntry = iter.next();
 
             Date endDate = findPrevDate(portfolioHistory, transferEntry.getKey());
             endValue = portfolioHistory.get(endDate);
-            twrMultiple *= endValue/(beginValue + transferAmount);
+
+            if (ignoreCounter > 0) {
+                --ignoreCounter;
+            } else {
+                twrMultiple *= endValue/(beginValue + transferAmount);
+            }
 
             portfolioDuration = DateUtils.getDiffYears(endDate, inception.getKey());
             if (portfolioDuration > yearCounter) {
