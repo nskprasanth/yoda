@@ -2,18 +2,19 @@ package robinhood.app;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import robinhood.response.Dividends;
-import robinhood.response.Instruments;
-import robinhood.response.Positions;
-import robinhood.response.Quote;
+import robinhood.response.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.*;
+
+import static robinhood.app.InstrumentOrders.*;
 
 public class ReturnsReport {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, ParseException {
         Robinhood trader = new Robinhood();
 
         Config config = ConfigFactory.parseReader(new FileReader(
@@ -27,6 +28,7 @@ public class ReturnsReport {
 
         Map<String, InstrumentReturns> instrumentReturnsMap = new HashMap<>();
         Map<String, String> instrumentMap = new HashMap<>();
+        Map<URL, String> instrumentURLMap = new HashMap<>();
 
         List<Positions.Position> positions = trader.getPositions();
         // Positions --> Instruments --> Quotes
@@ -34,6 +36,7 @@ public class ReturnsReport {
 
             Instruments instr = trader.getInstrumentDetails(p.getInstrumentURL());
             instrumentMap.put(instr.getId(), instr.getSymbol());
+            instrumentURLMap.put(p.getInstrumentURL(), instr.getSymbol());
 
             if (p.getQuantity() == 0) {
                 // not holding any positions now, skip
@@ -55,17 +58,43 @@ public class ReturnsReport {
 
         for (Dividends.Dividend dividend : dividends.getDividends()) {
             String symbol = instrumentMap.get(dividend.getInstrumentId());
-            float currentDividend = dividendsBySymbol.containsKey(symbol) ? dividendsBySymbol.get(symbol) : 0;
-            float newDividend = currentDividend + dividend.getAmount();
+            float newDividend = dividendsBySymbol.getOrDefault(symbol, 0F) + dividend.getAmount();
             dividendsBySymbol.put(symbol, newDividend);
-
             if (instrumentReturnsMap.containsKey(symbol)) {
                 instrumentReturnsMap.get(symbol).setDividendsGained(newDividend);
             }
         }
 
-        Set<InstrumentReturns> returns =  new TreeSet<>(instrumentReturnsMap.values());
-        returns.forEach((v) -> System.out.println(String.format("%s, %.2f, %.2f, %.2f", v.getSymbol(), 100 * v.getCapitalGains(),
-                100 * v.getDividendYield(), 100 * v.getTotalGains())));
+        // Orders
+        Map<String, InstrumentOrders> symbolToOrdersMap = new HashMap<>();
+        for (Orders.Order order : trader.getOrdersHistory()) {
+            if (!instrumentURLMap.containsKey(order.getInstrumentURL())) {
+                continue; // not holding any positions, skip
+            }
+            if (order.getState().equals("filled")) { // only look at filled orders
+                String symbol = instrumentURLMap.get(order.getInstrumentURL());
+                if (!symbolToOrdersMap.containsKey(symbol)) {
+                    symbolToOrdersMap.put(symbol, new InstrumentOrders());
+                }
+                symbolToOrdersMap.get(symbol).appendOrder(
+                        new InstrumentOrder(order.getQuantity(), order.getTimestamp(), order.getSide()));
+            }
+        }
+
+        symbolToOrdersMap.forEach((k, v) -> {
+            if (instrumentReturnsMap.containsKey(k)) {
+                // set the duration of a position to wtd average duration of holdings
+                instrumentReturnsMap.get(k).setDuration(v.getAverageDuration());
+            }
+        });
+
+        Set<InstrumentReturns> returns = new TreeSet<>(instrumentReturnsMap.values());
+        returns.forEach(v -> {
+            System.out.println(
+                    String.format("%s, %.2f, %.2f, %.2f, %.2f",
+                            v.getSymbol(), 100 * v.getCapitalGains(),
+                            100 * v.getDividendYield(), 100 * v.getTotalGains(),
+                            100 * v.getAnnualizedGains()));
+        });
     }
 }

@@ -7,6 +7,10 @@ import robinhood.response.Orders;
 public class OrdersApi extends RobinhoodApi {
 
     public OrdersApi() {
+        this(APIEndpoints.ORDERS.toString());
+    }
+
+    public OrdersApi(String url) {
         super("Orders");
 
         setRequestType(RequestType.GET);
@@ -15,7 +19,6 @@ public class OrdersApi extends RobinhoodApi {
         setHeaderParams("Accept","application/json");
 
         setResponseType(Orders.class);
-        setUrlBase(APIEndpoints.ORDERS.toString());
-
+        setUrlBase(url);
     }
 }

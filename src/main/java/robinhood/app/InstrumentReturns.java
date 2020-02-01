@@ -8,6 +8,7 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
     private float currentPrice;
     private float dividendsGained;
     private float quantity;
+    private float duration;
 
     InstrumentReturns(String symbol) {
         this.symbol = symbol;
@@ -21,14 +22,14 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
         if (avgBuyPrice == 0 || currentPrice == 0) {
             return 0;
         }
-        return (currentPrice/avgBuyPrice)-1;
+        return (currentPrice / avgBuyPrice) - 1;
     }
 
     float getDividendYield() {
         if (avgBuyPrice == 0 || quantity == 0) {
             return 0;
         }
-        return dividendsGained/(quantity * avgBuyPrice);
+        return dividendsGained / (quantity * avgBuyPrice);
     }
 
 
@@ -36,8 +37,8 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
         return getCapitalGains() + getDividendYield();
     }
 
-    public float getQuantity() {
-        return quantity;
+    float getAnnualizedGains() {
+        return (float) Math.pow((1 + getTotalGains()), (1 / duration)) - 1;
     }
 
     void setAvgBuyPrice(float avgBuyPrice) {
@@ -56,8 +57,12 @@ public class InstrumentReturns implements Comparable<InstrumentReturns> {
         this.quantity = quantity;
     }
 
+    void setDuration(float duration) {
+        this.duration = duration;
+    }
+
     @Override
     public int compareTo(InstrumentReturns o) {
-        return Float.compare(o.getTotalGains(), this.getTotalGains());
+        return Float.compare(o.getAnnualizedGains(), this.getAnnualizedGains());
     }
 }

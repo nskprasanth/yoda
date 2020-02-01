@@ -9,10 +9,19 @@ import java.util.List;
 
 public class Orders implements Serializable {
 
+    private String next;
     private List<Order> results;
 
     public List<Order> getOrders() {
         return results;
+    }
+
+    public void appendOrders(List<Order> newOrders) {
+        results.addAll(newOrders);
+    }
+
+    public String getNextUrl() {
+        return next;
     }
 
     public class Order implements Serializable {
@@ -31,7 +40,7 @@ public class Orders implements Serializable {
             return id;
         }
 
-        public URL getInstrument() {
+        public URL getInstrumentURL() {
             return instrument;
         }
 
@@ -60,8 +69,13 @@ public class Orders implements Serializable {
         }
 
         public Date getTimestamp() throws ParseException {
-            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
-                    .parse(this.last_transaction_at);
+            try {
+                return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
+                        .parse(this.last_transaction_at);
+            } catch (ParseException e) {
+                return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                        .parse(this.last_transaction_at);
+            }
         }
 
     }

@@ -83,8 +83,13 @@ public class Robinhood {
     }
 
     public List<Orders.Order> getOrdersHistory() {
-        Api ordersApi = new OrdersApi();
-        Orders orders = requestManager.callAPI(ordersApi);
+        Orders orders = requestManager.callAPI(new OrdersApi());
+        String nextUrl = orders.getNextUrl();
+        while (nextUrl != null) {
+            Orders nextOrders = requestManager.callAPI(new OrdersApi(nextUrl));
+            orders.appendOrders(nextOrders.getOrders());
+            nextUrl = nextOrders.getNextUrl();
+        }
         return orders.getOrders();
     }
 
