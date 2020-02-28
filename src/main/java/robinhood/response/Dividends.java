@@ -11,6 +11,8 @@ public class Dividends implements Serializable {
 
     private List<Dividend> results;
 
+    private static final String DIVIDEND_PAID_STATE = "paid";
+
     public List<Dividend> getDividends() {
         return results;
     }
@@ -25,6 +27,9 @@ public class Dividends implements Serializable {
 
         // total dividends
         private float amount;
+
+        // paid or void dividend
+        private String state;
 
         private String record_date;
         private String payable_date;
@@ -44,8 +49,10 @@ public class Dividends implements Serializable {
         }
 
         public float getAmount() {
-            return amount;
+            return isPaid() ? amount : 0;
         }
+
+        public boolean isPaid() { return state.equalsIgnoreCase(DIVIDEND_PAID_STATE); }
 
         public Date getRecord_date() throws ParseException {
             return new SimpleDateFormat("yyyy-mm-dd").parse(record_date);
