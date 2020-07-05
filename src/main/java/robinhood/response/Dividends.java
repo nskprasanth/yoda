@@ -12,6 +12,7 @@ public class Dividends implements Serializable {
     private List<Dividend> results;
 
     private static final String DIVIDEND_PAID_STATE = "paid";
+    private static final String DIVIDEND_REINVESTED_STATE = "reinvested";
 
     public List<Dividend> getDividends() {
         return results;
@@ -52,7 +53,11 @@ public class Dividends implements Serializable {
             return isPaid() ? amount : 0;
         }
 
-        public boolean isPaid() { return state.equalsIgnoreCase(DIVIDEND_PAID_STATE); }
+        // dividend paid in cash or reinvested
+        public boolean isPaid() {
+            return state.equalsIgnoreCase(DIVIDEND_PAID_STATE) ||
+                    state.equalsIgnoreCase(DIVIDEND_REINVESTED_STATE);
+        }
 
         public Date getRecord_date() throws ParseException {
             return new SimpleDateFormat("yyyy-mm-dd").parse(record_date);
